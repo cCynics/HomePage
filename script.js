@@ -1,65 +1,165 @@
-const hour = new Date().getHours();
-let greeting = "hello";
+// Search Engine URLs
+const searchEngines = {
+    google: 'https://www.google.com/search?q=',
+    duckduckgo: 'https://duckduckgo.com/?q=',
+    github: 'https://github.com/search?q='
+};
 
-// --- weather coords ---
-const lat = 47.4668;
-const lon = -122.3405;
+let currentEngine = 'google';
 
-// --- clock update ---
-function updateClock() {
-  const now = new Date();
-  document.getElementById("clock").textContent = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', second: '2-digit' });
-}
-setInterval(updateClock, 1000);
-updateClock();
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    updateTime();
+    updateGreeting();
+    loadNotes();
+    fetchBibleVerse();
+    fetchWeather();
+    setupSearchEngines();
+    setupSearch();
+    setupNotes();
+    
+    // Update time every second
+    setInterval(updateTime, 1000);
+    
+    // Keyboard shortcuts
+    document.addEventListener('keydown', handleKeyboardShortcuts);
+});
 
-//--- date update ---
-const date = new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-document.getElementById("date").textContent = `📅 ${date}`;
-
-// --- greetings ---
-
-if (hour < 12) greeting = "good morning";
-else if (hour < 18) greeting = "good afternoon";
-else greeting = "good evening";
-
-document.getElementById("greeting").textContent = `${greeting}, nick`;
-
-// --- weather fetcher ---
-fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&temperature_unit=fahrenheit`)
-  .then(res => res.json())
-  .then(data => {
-    const temp = data.current_weather.temperature;
-    const weatherCode = data.current_weather.weathercode;
-    const emoji = getWeatherEmoji(weatherCode);
-    document.getElementById("weather").textContent = `${emoji} ${temp}°F`;
-  })
-  .catch(() => {
-    document.getElementById("weather").textContent = "Weather unavailable";
-  });
-
-function getWeatherEmoji(code) {
-  if ([0, 1].includes(code)) return "☀️";           // Clear
-  if ([2, 3].includes(code)) return "⛅";           // Cloudy
-  if ([45, 48].includes(code)) return "🌫️";       // Fog
-  if ([51, 53, 55].includes(code)) return "🌦️";   // Drizzle
-  if ([61, 63, 65].includes(code)) return "🌧️";   // Rain
-  if ([66, 67].includes(code)) return "🌧️❄️";     // Freezing Rain
-  if ([71, 73, 75].includes(code)) return "❄️";   // Snow
-  if ([95, 96, 99].includes(code)) return "⛈️";   // Thunderstorm
-  return "🌍";
+// Time and Date
+function updateTime() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true 
+    });
+    const dateString = now.toLocaleDateString('en-US', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    });
+    
+    document.getElementById('time').textContent = timeString;
+    document.getElementById('date').textContent = dateString;
 }
 
-// -- quote fetcher ---
-fetch("https://api.allorigins.win/raw?url=https://zenquotes.io/api/random")
-  .then(res => res.json())
-  .then(data => {
-    const quote = data[0].q;
-    const author = data[0].a;
-    document.getElementById("quote").textContent = `💬 "${quote}" — ${author}`;
-  })
-  .catch((err) => {
-    console.error("Quote fetch error:", err);
-    document.getElementById("quote").textContent = "💬 Stay focused. Stay weird.";
-  });
+// Greeting based on time
+function updateGreeting() {
+    const hour = new Date().getHours();
+    let greeting;
+    
+    if (hour >= 5 && hour < 12) {
+        greeting = 'good morning';
+    } else if (hour >= 12 && hour < 17) {
+        greeting = 'good afternoon';
+    } else if (hour >= 17 && hour < 21) {
+        greeting = 'good evening';
+    } else {
+        greeting = 'good night';
+    }
+    
+    document.getElementById('greeting').textContent = `${greeting}, nick`;
+}
 
+// Weather (using wttr.in - a simple weather service)
+async function fetchWeather() {
+    try {
+        const response = await fetch('https://wttr.in/?format=%t+%C');
+        const weather = await response.text();
+        document.getElementById('weather').textContent = weather.trim();
+    } catch (error) {
+        document.getElementById('weather').textContent = 'Weather unavailable';
+        console.error('Weather fetch error:', error);
+    }
+}
+
+// Bible Verse (using Bible API)
+async function fetchBibleVerse() {
+    try {
+        const response = await fetch('https://beta.ourmanna.com/api/v1/get/?format=json');
+        const data = await response.json();
+        
+        if (data.verse && data.verse.details) {
+            document.getElementById('verse-text').textContent = data.verse.details.text;
+            document.getElementById('verse-reference').textContent = data.verse.details.reference;
+        }
+    } catch (error) {
+        document.getElementById('verse-text').textContent = 'Unable to load verse today.';
+        document.getElementById('verse-reference').textContent = '';
+        console.error('Bible verse fetch error:', error);
+    }
+}
+
+// Search Engine Toggle
+function setupSearchEngines() {
+    const buttons = document.querySelectorAll('.engine-btn');
+    
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            buttons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            currentEngine = button.dataset.engine;
+            document.getElementById('search-input').focus();
+        });
+    });
+}
+
+// Search Form
+function setupSearch() {
+    const form = document.getElementById('search-form');
+    const input = document.getElementById('search-input');
+    
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const query = input.value.trim();
+        
+        if (query) {
+            const searchUrl = searchEngines[currentEngine] + encodeURIComponent(query);
+            window.open(searchUrl, '_blank');
+            input.value = '';
+        }
+    });
+}
+
+// Notes with localStorage
+function setupNotes() {
+    const notesTextarea = document.getElementById('notes');
+    
+    notesTextarea.addEventListener('input', () => {
+        localStorage.setItem('homepage-notes', notesTextarea.value);
+    });
+}
+
+function loadNotes() {
+    const saved = localStorage.getItem('homepage-notes');
+    if (saved) {
+        document.getElementById('notes').value = saved;
+    }
+}
+
+// Keyboard Shortcuts
+function handleKeyboardShortcuts(e) {
+    // Ctrl/Cmd + K to focus search
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        document.getElementById('search-input').focus();
+        document.getElementById('search-input').select();
+    }
+    
+    // Ctrl/Cmd + N to focus notes
+    if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+        e.preventDefault();
+        document.getElementById('notes').focus();
+    }
+    
+    // Ctrl/Cmd + 1/2/3 to switch search engines
+    if ((e.ctrlKey || e.metaKey) && ['1', '2', '3'].includes(e.key)) {
+        e.preventDefault();
+        const engines = ['google', 'duckduckgo', 'github'];
+        const index = parseInt(e.key) - 1;
+        const button = document.querySelector(`[data-engine="${engines[index]}"]`);
+        if (button) button.click();
+    }
+}
