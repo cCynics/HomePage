@@ -1,92 +1,87 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <div class="container">
-        <!-- Info Bar -->
-        <div class="info-bar">
-            <div class="greeting" id="greeting"></div>
-            <div class="datetime">
-                <span id="time"></span>
-                <span id="date"></span>
-            </div>
-            <div class="weather" id="weather"></div>
+      <!-- Info Bar -->
+      <div class="info-bar">
+        <div class="greeting" id="greeting"></div>
+        <div class="datetime">
+          <span id="time"></span>
+          <span id="date"></span>
+        </div>
+        <div class="weather" id="weather"></div>
+      </div>
+      <div class="divider">
+          <span>✦</span>
+      </div>
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Search Section -->
+        <div class="search-section">
+          <div class="search-engines">
+            <button class="engine-btn active" data-engine="google">
+              Google
+            </button>
+            <button class=" engine-btn" data-engine="duckduckgo">
+              DuckDuckGo
+            </button>
+            <button class="engine-btn" data-engine="github">GitHub</button>
+          </div>
+          <form id="search-form">
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Search..."
+              autofocus
+              autocomplete="off"
+            />
+          </form>
         </div>
 
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Search Section -->
-            <div class="search-section">
-                <div class="search-engines">
-                    <button class="engine-btn active" data-engine="google">Google</button>
-                    <button class="engine-btn" data-engine="duckduckgo">DuckDuckGo</button>
-                    <button class="engine-btn" data-engine="github">GitHub</button>
-                </div>
-                <form id="search-form">
-                    <input 
-                        type="text" 
-                        id="search-input" 
-                        placeholder="Search..." 
-                        autofocus
-                        autocomplete="off"
-                    >
-                </form>
+        <!-- Quick Links -->
+          <div class="link-category">
+            <h3>Daily</h3>
+            <div class="links">
+              <a href="https://youtube.com" target="_blank">YouTube</a>
+              <a href="https://reddit.com" target="_blank">Reddit</a>
+              <a href="https://claude.ai" target="_blank">Claude</a>
+              <a href="https://netflix.com" target="_blank">Netflix</a>
+              <a href="https://amazon.com" target="_blank">Amazon</a>
+              <a href="https://www.twitch.tv" target="_blank">Twitch</a>
+              <a href="https://github.com/cCynics" target="_blank">GitHub</a>
+              <a href="https://www.crunchyroll.com" target="_blank">Crunchyroll</a>
+              <a href="https://oldschool.runescape.wiki" target="_blank">OSRS Wiki</a>
+              <a href="https://runescape.wiki" target="_blank">RS3 Wiki</a>
             </div>
-
-            <!-- Quick Links -->
-            <div class="links-section">
-                <div class="link-category">
-                    <h3>Development</h3>
-                    <div class="links">
-                        <a href="https://github.com" target="_blank">GitHub</a>
-                        <a href="https://stackoverflow.com" target="_blank">Stack Overflow</a>
-                        <a href="https://cppreference.com" target="_blank">C++ Reference</a>
-                    </div>
-                </div>
-                <div class="link-category">
-                    <h3>Learning</h3>
-                    <div class="links">
-                        <a href="https://tryhackme.com" target="_blank">TryHackMe</a>
-                        <a href="https://lowlevelacademy.com" target="_blank">Low Level Academy</a>
-                    </div>
-                </div>
-                <div class="link-category">
-                    <h3>Daily</h3>
-                    <div class="links">
-                        <a href="https://youtube.com" target="_blank">YouTube</a>
-                        <a href="https://reddit.com" target="_blank">Reddit</a>
-                        <a href="https://claude.ai" target="_blank">Claude</a>
-                        <a href="https://netflix.com" target="_blank">Netflix</a>
-                        <a href="https://amazon.com" target="_blank">Amazon</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bible Verse -->
-            <div class="verse-section">
-                <div class="verse-content" id="verse">
-                    <p class="verse-text" id="verse-text">Loading verse...</p>
-                    <p class="verse-reference" id="verse-reference"></p>
-                </div>
-            </div>
-
-            <!-- Notes Section -->
-            <div class="notes-section">
-                <h3>Quick Notes</h3>
-                <textarea 
-                    id="notes" 
-                    placeholder="Jot down quick thoughts..."
-                    rows="4"
-                ></textarea>
-            </div>
+          </div>
         </div>
+
+        <!-- Bible Verse -->
+        <div class="verse-section">
+          <div class="verse-content" id="verse">
+            <p class="verse-text" id="verse-text">Loading verse...</p>
+            <p class="verse-reference" id="verse-reference"></p>
+          </div>
+        </div>
+
+        <!-- Notes Section -->
+        <div class="notes-section">
+          <h3>Quick Notes</h3>
+          <textarea
+            id="notes"
+            placeholder="Jot down quick thoughts..."
+            rows="4"
+          ></textarea>
+        </div>
+      </div>
     </div>
 
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
