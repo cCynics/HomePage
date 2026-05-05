@@ -63,14 +63,28 @@ function updateGreeting() {
     document.getElementById('greeting').textContent = `${greeting}, nick`;
 }
 
-// Weather (using wttr.in - a simple weather service)
+// Weather (using Open-Meteo — no API key required)
+const WMO_CODES = {
+    0: 'Clear', 1: 'Mainly Clear', 2: 'Partly Cloudy', 3: 'Overcast',
+    45: 'Fog', 48: 'Icy Fog',
+    51: 'Light Drizzle', 53: 'Drizzle', 55: 'Heavy Drizzle',
+    61: 'Light Rain', 63: 'Rain', 65: 'Heavy Rain',
+    71: 'Light Snow', 73: 'Snow', 75: 'Heavy Snow', 77: 'Snow Grains',
+    80: 'Showers', 81: 'Rain Showers', 82: 'Heavy Showers',
+    85: 'Snow Showers', 86: 'Heavy Snow Showers',
+    95: 'Thunderstorm', 96: 'Thunderstorm w/ Hail', 99: 'Severe Thunderstorm'
+};
+
 async function fetchWeather() {
+    const el = document.getElementById('weather');
     try {
-        const response = await fetch('https://wttr.in/?format=%t+%C');
-        const weather = await response.text();
-        document.getElementById('weather').textContent = weather.trim();
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=47.6062&longitude=-122.3321&current_weather=true&temperature_unit=fahrenheit`;
+        const data = await (await fetch(url)).json();
+        const { temperature, weathercode } = data.current_weather;
+        const condition = WMO_CODES[weathercode] ?? 'Unknown';
+        el.textContent = `${Math.round(temperature)}°F  ${condition}`;
     } catch (error) {
-        document.getElementById('weather').textContent = 'Weather unavailable';
+        el.textContent = 'Weather unavailable';
         console.error('Weather fetch error:', error);
     }
 }
