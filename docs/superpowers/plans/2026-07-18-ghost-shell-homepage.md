@@ -1238,7 +1238,7 @@ const FIFTEEN_MIN = 15 * 60 * 1000
 export function WeatherPane() {
   const { data, loading, error } = usePolling(() => fetchWeather(config.location), FIFTEEN_MIN)
   return (
-    <Pane title="weather" badge="◍" live loading={loading && !data} error={error}>
+    <Pane title="weather" badge="◍" live loading={loading && !data} error={error && !data}>
       {data && (
         <>
           <div className="text-2xl text-gs-text" style={{ textShadow: '0 0 12px rgba(153,102,255,.4)' }}>
@@ -1345,7 +1345,7 @@ import config from '../../config.js'
 export function CryptoPane() {
   const { data, loading, error } = usePolling(() => fetchCrypto(config.cryptoCoins), 60 * 1000)
   return (
-    <Pane title="crypto" badge="$" live loading={loading && !data} error={error}>
+    <Pane title="crypto" badge="$" live loading={loading && !data} error={error && !data}>
       {data && data.map((c) => {
         const up = c.change24h >= 0
         return (
@@ -1443,7 +1443,7 @@ import { fetchTopStories } from '../../lib/hackernews.js'
 export function HackerNewsPane() {
   const { data, loading, error } = usePolling(() => fetchTopStories(3), 10 * 60 * 1000)
   return (
-    <Pane title="hacker news" badge="▲" className="sm:col-span-2" loading={loading && !data} error={error}>
+    <Pane title="hacker news" badge="▲" className="sm:col-span-2" loading={loading && !data} error={error && !data}>
       {data && data.map((s) => (
         <a key={s.id} href={s.url} className="block py-0.5 leading-snug text-gs-text hover:text-gs-violet">
           <span className="text-[9px] text-gs-violet">{s.score} ▲</span> {s.title}
@@ -1532,7 +1532,7 @@ const KEY = import.meta.env.VITE_NASA_KEY || 'DEMO_KEY'
 export function NasaPane() {
   const { data, loading, error } = usePolling(() => fetchApod(KEY), 24 * 60 * 60 * 1000)
   return (
-    <Pane title="nasa · photo of the day" badge="✦" className="sm:col-span-2" loading={loading && !data} error={error}>
+    <Pane title="nasa · photo of the day" badge="✦" className="sm:col-span-2" loading={loading && !data} error={error && !data}>
       {data && (
         <figure className="m-0">
           {data.imageUrl
@@ -1636,7 +1636,7 @@ export function VersePane() {
   const ref = pickRef(config.bibleRefs, new Date())
   const { data, loading, error } = usePolling(() => fetchVerse(ref, config.bibleTranslation), 24 * 60 * 60 * 1000)
   return (
-    <Pane title="verse of the day" badge="✝" loading={loading && !data} error={error}>
+    <Pane title="verse of the day" badge="✝" loading={loading && !data} error={error && !data}>
       {data && (
         <>
           <p className="text-[11px] italic leading-relaxed text-gs-dim">"{data.text}"</p>
@@ -2204,7 +2204,7 @@ import config from '../../config.js'
 export function NewsPane() {
   const { data, loading, error } = usePolling(() => fetchNews(config.rssSources), 15 * 60 * 1000)
   return (
-    <Pane title="news" badge="rss" className="sm:col-span-2" loading={loading && !data} error={error}>
+    <Pane title="news" badge="rss" className="sm:col-span-2" loading={loading && !data} error={error && !data}>
       {data && data.map((n, i) => (
         <a key={i} href={n.link} className="block py-0.5 leading-snug text-gs-text hover:text-gs-violet">
           <span className="text-[9px] text-gs-violet">{n.source}</span> — {n.title}
@@ -2362,7 +2362,7 @@ export function GithubPane() {
   const { data, loading, error } = usePolling(() => fetchGithub(config.githubUsername), 30 * 60 * 1000)
   const days = data ? data.days.slice(-40) : []
   return (
-    <Pane title="github activity" badge="◱" className="sm:col-span-2" loading={loading && !data} error={error}>
+    <Pane title="github activity" badge="◱" className="sm:col-span-2" loading={loading && !data} error={error && !data}>
       {data && (
         <>
           <div className="grid grid-cols-20 gap-0.5" style={{ gridTemplateColumns: 'repeat(20, 1fr)' }}>

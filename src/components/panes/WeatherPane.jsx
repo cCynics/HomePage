@@ -9,7 +9,7 @@ const FIFTEEN_MIN = 15 * 60 * 1000
 export function WeatherPane() {
   const { data, loading, error } = usePolling(() => fetchWeather(config.location), FIFTEEN_MIN)
   return (
-    <Pane title="weather" badge="◍" live loading={loading && !data} error={error}>
+    <Pane title="weather" badge="◍" live loading={loading && !data} error={error && !data}>
       {data && (
         <>
           <div className="text-2xl text-gs-text" style={{ textShadow: '0 0 12px rgba(153,102,255,.4)' }}>
