@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+/* ─── ghost-shell design tokens ───────────────────────────────────────
+   Declaring colors here makes them Tailwind utilities automatically:
+     --color-gs-violet  →  text-gs-violet / bg-gs-violet / border-gs-violet
+   That's Tailwind v4's "CSS-first" theming — no separate config file.
+   ------------------------------------------------------------------- */
+@theme {
+  --color-gs-bg:     #080808;  /* void / page background        */
+  --color-gs-panel:  #0e0e18;  /* raised surfaces (cards)       */
+  --color-gs-border: #1a1a30;  /* hairline borders              */
+  --color-gs-hover:  #1e1e38;  /* hover fill                    */
+  --color-gs-violet: #9966ff;  /* primary accent                */
+  --color-gs-rose:   #ff5090;  /* highlight                     */
+  --color-gs-cyan:   #60d0ff;  /* data pop                      */
+  --color-gs-text:   #d0e0f0;  /* foreground text               */
+  --color-gs-dim:    #6a6a88;  /* muted / secondary text        */
+
+  --font-mono: "JetBrainsMono Nerd Font", "JetBrains Mono", ui-monospace, monospace;
+}
+
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  background-color: var(--color-gs-bg);
+  color: var(--color-gs-text);
+  font-family: var(--font-mono);
+}
+
+/* extra semantic tokens */
+@theme {
+  --color-gs-up:   #4dffa0;  /* market up / positive */
+  --color-gs-down: #ff5090;  /* market down (reuse rose hue) */
+  --color-gs-glow: #9966ff;  /* neon bloom source */
+}
+
+/* ─── flair: glow, pulse, fade-in, blink ─────────────────────────── */
+.gs-glow-border {
+  border: 1px solid color-mix(in srgb, var(--color-gs-violet) 34%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--color-gs-glow) 14%, transparent),
+              inset 0 0 10px color-mix(in srgb, var(--color-gs-glow) 5%, transparent);
+}
+.gs-pulse { animation: gs-pulse 2.8s ease-in-out infinite; }
+@keyframes gs-pulse {
+  50% { box-shadow: 0 0 22px color-mix(in srgb, var(--color-gs-glow) 40%, transparent),
+                    inset 0 0 12px color-mix(in srgb, var(--color-gs-glow) 10%, transparent); }
+}
+.gs-fade-up { animation: gs-fade-up .5s ease-out both; }
+@keyframes gs-fade-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.gs-blink { animation: gs-blink 1s steps(1) infinite; }
+@keyframes gs-blink { 50% { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .gs-pulse, .gs-fade-up, .gs-blink { animation: none !important; }
+}
