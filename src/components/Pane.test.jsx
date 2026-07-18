@@ -19,4 +19,13 @@ describe('Pane', () => {
     expect(screen.getByText(/unavailable/i)).toBeInTheDocument()
     expect(screen.queryByText('body')).not.toBeInTheDocument()
   })
+  it('adds the gs-pulse class when live', () => {
+    const { container } = render(<Pane title="x" live><div>b</div></Pane>)
+    expect(container.querySelector('section')).toHaveClass('gs-pulse')
+  })
+  it('prioritizes loading over error', () => {
+    render(<Pane title="x" loading error={new Error('e')}><div>body</div></Pane>)
+    expect(screen.getByTestId('pane-skeleton')).toBeInTheDocument()
+    expect(screen.queryByText(/unavailable/i)).not.toBeInTheDocument()
+  })
 })
