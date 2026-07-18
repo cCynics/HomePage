@@ -5,6 +5,18 @@ import { StatusBar } from './components/StatusBar.jsx'
 import { Grid } from './components/Grid.jsx'
 import { useNow } from './hooks/useNow.js'
 import { CommandBar } from './components/CommandBar.jsx'
+import { LinksPane } from './components/panes/LinksPane.jsx'
+import { WeatherPane } from './components/panes/WeatherPane.jsx'
+import { CryptoPane } from './components/panes/CryptoPane.jsx'
+import { TodoScratchPane } from './components/panes/TodoScratchPane.jsx'
+import { NewsPane } from './components/panes/NewsPane.jsx'
+import { HackerNewsPane } from './components/panes/HackerNewsPane.jsx'
+import { GithubPane } from './components/panes/GithubPane.jsx'
+import { NasaPane } from './components/panes/NasaPane.jsx'
+import { WorldClocksPane } from './components/panes/WorldClocksPane.jsx'
+import { VersePane } from './components/panes/VersePane.jsx'
+import { CalendarPane } from './components/panes/CalendarPane.jsx'
+import { PomodoroPane } from './components/panes/PomodoroPane.jsx'
 
 export default function App() {
   const now = useNow()
@@ -14,7 +26,16 @@ export default function App() {
       <div className="flex-1">
         <Header now={now} />
         <CommandBar />
-        <Grid>{/* panes mount here in Task 25 */}</Grid>
+        <Grid>
+          {/* row 1 — daily glances */}
+          <LinksPane /><WeatherPane /><CryptoPane /><TodoScratchPane />
+          {/* row 2 — reading */}
+          <NewsPane /><HackerNewsPane />
+          {/* row 3 — identity + splash */}
+          <GithubPane /><NasaPane />
+          {/* row 4 — personal */}
+          <WorldClocksPane /><VersePane /><CalendarPane /><PomodoroPane />
+        </Grid>
       </div>
       <StatusBar now={now} />
     </div>

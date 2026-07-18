@@ -9,4 +9,11 @@ describe('App shell', () => {
     expect(screen.getByLabelText('ghost-shell')).toBeInTheDocument()
     expect(screen.getByText('NORMAL')).toBeInTheDocument()
   })
+
+  it('mounts the config-driven panes', () => {
+    render(<App />)
+    expect(screen.getByText('links')).toBeInTheDocument()
+    expect(screen.getByText('world clocks')).toBeInTheDocument()
+    expect(screen.getByText('pomodoro')).toBeInTheDocument()
+  })
 })

@@ -1,3 +1,4 @@
+import React from 'react'
 import { Pane } from '../Pane.jsx'
 import { usePolling } from '../../hooks/usePolling.js'
 import { fetchCrypto, fmtPrice } from '../../lib/coingecko.js'
