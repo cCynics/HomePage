@@ -20,4 +20,10 @@ describe('useLocalStorage', () => {
     const { result } = renderHook(() => useLocalStorage('k', 'init'))
     expect(result.current[0]).toBe('stored')
   })
+  it('supports functional updates and persists them', () => {
+    const { result } = renderHook(() => useLocalStorage('k', 1))
+    act(() => result.current[1]((prev) => prev + 1))
+    expect(result.current[0]).toBe(2)
+    expect(JSON.parse(localStorage.getItem('k'))).toBe(2)
+  })
 })
