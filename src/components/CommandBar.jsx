@@ -44,6 +44,7 @@ export function CommandBar({ onNavigate = (url) => window.location.assign(url) }
           className="w-full bg-transparent text-gs-text placeholder:text-gs-dim/70 focus:outline-none"
           autoFocus
         />
+        <span className="gs-blink ml-1 inline-block h-4 w-[7px] bg-gs-violet" aria-hidden />
       </div>
       {help && (
         <div className="gs-glow-border absolute left-5 right-5 z-10 mt-2 rounded-lg bg-gs-panel p-4 text-xs">

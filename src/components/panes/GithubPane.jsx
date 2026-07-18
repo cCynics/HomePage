@@ -1,5 +1,6 @@
 import React from 'react'
 import { Pane } from '../Pane.jsx'
+import { CountUp } from '../CountUp.jsx'
 import { usePolling } from '../../hooks/usePolling.js'
 import { fetchGithub, levelClass } from '../../lib/github.js'
 import config from '../../config.js'
@@ -14,7 +15,7 @@ export function GithubPane() {
           <div className="grid grid-cols-20 gap-0.5" style={{ gridTemplateColumns: 'repeat(20, 1fr)' }}>
             {days.map((d, i) => <span key={i} className={`aspect-square rounded-sm ${levelClass(d.level)}`} />)}
           </div>
-          <p className="mt-2 text-[10px] text-gs-dim">{data.total} contributions this year</p>
+          <p className="mt-2 text-[10px] text-gs-dim"><CountUp value={data.total} /> contributions this year</p>
         </>
       )}
     </Pane>
