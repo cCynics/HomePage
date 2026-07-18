@@ -1,0 +1,3 @@
+# Exclude vitest test files from Vercel's /api function detection —
+# they are not serverless functions and import devDependencies.
+api/**/*.test.js
