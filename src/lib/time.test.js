@@ -18,4 +18,7 @@ describe('time', () => {
   it('renders a timezone as HH:MM', () => {
     expect(timeInZone(new Date('2026-07-18T21:47:00Z'), 'UTC')).toBe('21:47')
   })
+  it('renders midnight as 00:00, not 24:00', () => {
+    expect(timeInZone(new Date('2026-07-18T00:00:00Z'), 'UTC')).toBe('00:00')
+  })
 })
