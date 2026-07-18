@@ -2199,6 +2199,7 @@ export async function fetchNews(sources) {
 import { Pane } from '../Pane.jsx'
 import { usePolling } from '../../hooks/usePolling.js'
 import { fetchNews } from '../../lib/news.js'
+import { safeHttpUrl } from '../../lib/url.js'
 import config from '../../config.js'
 
 export function NewsPane() {
@@ -2206,7 +2207,7 @@ export function NewsPane() {
   return (
     <Pane title="news" badge="rss" className="sm:col-span-2" loading={loading && !data} error={error && !data}>
       {data && data.map((n, i) => (
-        <a key={i} href={n.link} className="block py-0.5 leading-snug text-gs-text hover:text-gs-violet">
+        <a key={i} href={safeHttpUrl(n.link, '#')} className="block py-0.5 leading-snug text-gs-text hover:text-gs-violet">
           <span className="text-[9px] text-gs-violet">{n.source}</span> — {n.title}
         </a>
       ))}
@@ -2303,8 +2304,9 @@ export default async function handler(req, res) {
     if (json.errors) throw new Error(json.errors[0]?.message ?? 'graphql error')
     res.setHeader('Cache-Control', 's-maxage=1800, stale-while-revalidate')
     res.status(200).json(flattenContributions(json))
-  } catch (err) {
-    res.status(502).json({ error: String(err.message ?? err) })
+  } catch {
+    // Generic message — never echo upstream/GraphQL error text (info disclosure).
+    res.status(502).json({ error: 'failed to fetch contributions' })
   }
 }
 ```
