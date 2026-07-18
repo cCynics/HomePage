@@ -53,3 +53,26 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .gs-pulse, .gs-fade-up, .gs-blink { animation: none !important; }
 }
+
+/* ─── synthwave bottom scene ─────────────────────────────────────── */
+.gs-scene-grid {
+  background-image:
+    linear-gradient(rgba(153, 102, 255, .5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(153, 102, 255, .35) 1px, transparent 1px);
+  background-size: 40px 40px;
+  transform: perspective(220px) rotateX(68deg);
+  transform-origin: bottom;
+  animation: gs-scene-drift 6s linear infinite;
+}
+@keyframes gs-scene-drift { from { background-position: 0 0; } to { background-position: 0 40px; } }
+.gs-scene-sun {
+  background: linear-gradient(#c9a6ff, #9966ff 45%, #5a3aa0);
+  box-shadow: 0 0 60px rgba(153, 102, 255, .55);
+}
+.gs-scene-sun::after {
+  content: ""; position: absolute; inset: 0; border-radius: 9999px;
+  background: repeating-linear-gradient(#08080e 0 3px, transparent 3px 9px);
+  -webkit-mask: linear-gradient(#000 60%, transparent);
+  mask: linear-gradient(#000 60%, transparent);
+}
+@media (prefers-reduced-motion: reduce) { .gs-scene-grid { animation: none; } }
