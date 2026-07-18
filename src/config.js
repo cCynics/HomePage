@@ -1,6 +1,7 @@
 const config = {
   bannerText: 'ghost-shell',
   name: 'nick',
+  hour12: true, // 12-hour clock (am/pm); set false for 24-hour
   location: { lat: 47.6062, lon: -122.3321, label: 'Seattle, WA' },
 
   links: [

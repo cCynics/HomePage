@@ -11,7 +11,7 @@ export function WorldClocksPane() {
       {config.worldClocks.map((c) => (
         <div key={c.label} className="flex justify-between py-0.5 text-gs-text">
           <span className="text-gs-dim"><span>{c.label}</span> {c.flag}</span>
-          <span>{timeInZone(now, c.tz)}</span>
+          <span>{timeInZone(now, c.tz, config.hour12)}</span>
         </div>
       ))}
     </Pane>

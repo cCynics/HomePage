@@ -1,7 +1,10 @@
 export const pad2 = (n) => String(n).padStart(2, '0')
 
-export function clockParts(date) {
-  return { hh: pad2(date.getHours()), mm: pad2(date.getMinutes()), ss: pad2(date.getSeconds()) }
+export function clockParts(date, hour12 = false) {
+  const h24 = date.getHours()
+  const period = h24 < 12 ? 'am' : 'pm'
+  const hh = hour12 ? String(h24 % 12 === 0 ? 12 : h24 % 12) : pad2(h24)
+  return { hh, mm: pad2(date.getMinutes()), ss: pad2(date.getSeconds()), period }
 }
 
 export function greeting(date) {
@@ -24,8 +27,13 @@ export function formatDuration(ms) {
   return `${h}h ${m}m`
 }
 
-export function timeInZone(date, tz) {
+export function timeInZone(date, tz, hour12 = false) {
+  if (hour12) {
+    return new Intl.DateTimeFormat('en-US', {
+      timeZone: tz, hour: 'numeric', minute: '2-digit', hour12: true,
+    }).format(date) // e.g. "6:02 AM"
+  }
   return new Intl.DateTimeFormat('en-GB', {
     timeZone: tz, hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
-  }).format(date)
+  }).format(date) // e.g. "21:47"
 }

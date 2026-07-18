@@ -12,7 +12,7 @@ const BANNER = String.raw`
 `
 
 export function Header({ now }) {
-  const { hh, mm, ss } = clockParts(now)
+  const { hh, mm, ss, period } = clockParts(now, config.hour12)
   return (
     <header className="px-5 pt-4">
       <div className="flex items-start justify-between">
@@ -29,6 +29,7 @@ export function Header({ now }) {
         <div className="text-3xl font-semibold tracking-wide text-gs-text"
              style={{ textShadow: '0 0 14px rgba(153,102,255,.5)' }}>
           <span>{hh}</span>:<span>{mm}</span><span className="text-base text-gs-dim">:{ss}</span>
+          {config.hour12 && <span className="ml-1 text-sm text-gs-dim">{period}</span>}
         </div>
         <div className="text-xs text-gs-dim">
           {greeting(now)}, <span className="text-gs-violet">{config.name}</span> — {formatDuration(msUntilMidnight(now))} until midnight

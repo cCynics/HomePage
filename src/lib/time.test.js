@@ -5,7 +5,12 @@ const at = (h, m = 0, s = 0) => new Date(2026, 6, 18, h, m, s) // local time
 
 describe('time', () => {
   it('pads', () => expect(pad2(4)).toBe('04'))
-  it('splits the clock', () => expect(clockParts(at(21, 47, 32))).toEqual({ hh: '21', mm: '47', ss: '32' }))
+  it('splits the clock', () => expect(clockParts(at(21, 47, 32))).toEqual({ hh: '21', mm: '47', ss: '32', period: 'pm' }))
+  it('splits the clock in 12-hour form with am/pm', () => {
+    expect(clockParts(at(21, 47, 32), true)).toEqual({ hh: '9', mm: '47', ss: '32', period: 'pm' })
+    expect(clockParts(at(0, 5, 0), true)).toEqual({ hh: '12', mm: '05', ss: '00', period: 'am' })
+    expect(clockParts(at(12, 0, 0), true)).toEqual({ hh: '12', mm: '00', ss: '00', period: 'pm' })
+  })
   it('greets by hour', () => {
     expect(greeting(at(8))).toBe('good morning')
     expect(greeting(at(14))).toBe('good afternoon')
@@ -20,5 +25,10 @@ describe('time', () => {
   })
   it('renders midnight as 00:00, not 24:00', () => {
     expect(timeInZone(new Date('2026-07-18T00:00:00Z'), 'UTC')).toBe('00:00')
+  })
+  it('renders a timezone in 12-hour form', () => {
+    const t = timeInZone(new Date('2026-07-18T21:47:00Z'), 'UTC', true)
+    expect(t).toMatch(/9:47/)
+    expect(t).toMatch(/PM/i)
   })
 })

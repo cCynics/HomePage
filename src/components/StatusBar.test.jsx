@@ -7,6 +7,6 @@ describe('StatusBar', () => {
   it('renders the mode and the current time', () => {
     render(<StatusBar now={new Date(2026, 6, 18, 21, 47, 32)} />)
     expect(screen.getByText('NORMAL')).toBeInTheDocument()
-    expect(screen.getByText(/21:47:32/)).toBeInTheDocument()
+    expect(screen.getByText(/9:47:32/)).toBeInTheDocument()
   })
 })
