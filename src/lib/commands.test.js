@@ -17,4 +17,12 @@ describe('resolveCommand', () => {
     expect(resolveCommand('rust async', config))
       .toEqual({ url: 'https://www.google.com/search?q=rust%20async' })
   })
+  it('searches (not navigates) when an alias token is followed by a query — the gh overlap case', () => {
+    expect(resolveCommand('gh octocat', config))
+      .toEqual({ url: 'https://github.com/search?q=octocat' })
+  })
+  it('falls back to default search for a bare bang token with no query', () => {
+    expect(resolveCommand('g', config))
+      .toEqual({ url: 'https://www.google.com/search?q=g' })
+  })
 })
