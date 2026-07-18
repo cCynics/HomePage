@@ -34,8 +34,8 @@ is discarded; the React + Vite + Tailwind scaffold on `react-rebuild` is the bas
   lighter `#c9a6ff`), muted grey body text, green/red for market up/down.
 - **Type:** monospace throughout (JetBrains Mono or similar), uppercase micro-labels
   for pane headers.
-- **Chrome:** a "traffic-light" top bar, an ASCII figlet banner (default text
-  `ghost-shell`, configurable), a big live clock + time-of-day greeting +
+- **Chrome:** a "traffic-light" top bar, a **cleanly-generated** ASCII figlet
+  banner reading `ghost-shell` (configurable), a big live clock + greeting +
   countdown-to-midnight, and a tmux/vim-style **status bar** pinned at the bottom.
 - **Flair (locked):**
   - **Horizon glow** — a soft violet/cyan radial glow behind the header. (The
@@ -120,7 +120,8 @@ Clock / greeting / countdown / status bar are pure client-side (1 s tick).
 User-editable without touching components:
 - `bannerText` (default `"ghost-shell"`)
 - `name` (for the greeting)
-- `location` `{ lat, lon, label }` — for weather (optional browser geolocation)
+- `location` `{ lat: 47.6062, lon: -122.3321, label: "Seattle, WA" }` — hardcoded
+  for weather (no browser geolocation)
 - `links` — `[{ label, url, alias }]`
 - `worldClocks` — `[{ label, tz, flag }]` (defaults incl. Tallinn 🇪🇪, Sydney 🇦🇺)
 - `cryptoCoins` — `["bitcoin","ethereum","solana","dogecoin"]`
@@ -147,8 +148,8 @@ User-editable without touching components:
   fetchers.
 - Manual: verify each live source returns real data; verify reduced-motion path.
 
-## Open questions
-- Banner text: keep `ghost-shell` or personalize? (Configurable; default set,
-  decide at build.)
-- Default weather location: hardcode in config vs. ask for browser geolocation on
-  first load? (Leaning: config default + optional geolocation.)
+## Resolved decisions
+- **Banner text:** `ghost-shell` (kept as-is; the earlier illegible banner was
+  just a hand-typed mock — real build generates a clean figlet).
+- **Weather location:** hardcoded to Seattle, WA (`47.6062, -122.3321`). No
+  browser geolocation.
